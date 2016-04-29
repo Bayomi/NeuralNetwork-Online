@@ -107,9 +107,13 @@ def activation(z, function):
     #The activation function
     if function == "sigmoid":
         return 1.0/(1.0+np.exp(-z))
+    elif function == "tanh":
+        return np.tanh(z)
 
 def activationPrime(z, function):
     #Derivative of the activation function
     if function == "sigmoid":
         return activation(z, "sigmoid")*(1-activation(z, "sigmoid"))
+    elif function == "tanh":
+        return 1/(np.cosh(z)**2)
     

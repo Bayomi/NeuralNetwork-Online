@@ -10,16 +10,10 @@ from array import array as pyarray
 from pylab import *
 from numpy import *
 
-def numberToVector(z):
-    a = np.zeros(10)
-    a[z] = 1
-    return a
-
 def load_mnist(dataset="training", digits=np.arange(10), path="."):
     """
-    Loads MNIST files into 3D numpy arrays
+    Loads MNIST files into numpy arrays. The code was adapted from: http://abel.ee.ucla.edu/cvxopt/_downloads/mnist.py
 
-    Adapted from: http://abel.ee.ucla.edu/cvxopt/_downloads/mnist.py
     """
 
     if dataset == "training":
@@ -52,10 +46,16 @@ def load_mnist(dataset="training", digits=np.arange(10), path="."):
 
     return images, labels
 
+def numberToVector(z):
+    #Auxiliar function to turn number (<=9) into bits vector
+    a = np.zeros(10)
+    a[z] = 1
+    return a
 
 def getSample(sample):
+    #Get training images and labels
     images, labels = load_mnist('training')
-    
+    #Format them into group of 784 size arrays (images) and 10 bits vectors (labels)
     train_images = np.zeros(shape=(sample,784))
     train_labels = np.zeros(shape=(sample,10))
     for c in range(0, sample):
@@ -64,10 +64,13 @@ def getSample(sample):
     return train_images, train_labels
     
 def getTestingSample(sample):
+    #Get testing images and labels
     images, labels = load_mnist('testing')
-    train_images = np.zeros(shape=(sample,784))
-    train_labels = np.zeros(shape=(sample,10))
+    #Format them into group of 784 size arrays (images) and 10 bits vectors (labels)
+    test_images = np.zeros(shape=(sample,784))
+    test_labels = np.zeros(shape=(sample,10))
     for c in range(0, sample):
-        train_images[c] = images[c].flatten()
-        train_labels[c] = numberToVector(labels[c])
-    return train_images, train_labels
+        test_images[c] = images[c].flatten()
+        test_labels[c] = numberToVector(labels[c])
+    return test_images, test_labels
+
